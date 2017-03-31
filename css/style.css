@@ -171,6 +171,10 @@ span {
   padding: 5px;
 }
 
+.contacts-link {
+  display: inline;
+}
+
 #lets-connect {
   text-align: center;
 }
