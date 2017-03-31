@@ -48,11 +48,9 @@ bio.display = function() {
 	if(bio.skills.length > 0) {
 		$("#header").append(HTMLskillsStart);
 
-		for(skill in bio.skills) {
-			if(bio.skills.hasOwnProperty(skill)) {
-				var formattedSkill = HTMLskills.replace('%data%', bio.skills[skill]);
-				$('#skills').append(formattedSkill);
-			}
+		for(var i = 0; i < bio.skills.length; i++) {
+			var formattedSkill = HTMLskills.replace('%data%', bio.skills[i]);
+			$('#skills').append(formattedSkill);
 		}
 	}
 }	
