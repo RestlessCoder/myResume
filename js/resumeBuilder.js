@@ -12,7 +12,7 @@ var bio = {
 	"welcomeMessage" : "Welcome to my resume page. I'm self-taught front-end web developer." 
 					   + " Feel free to check out my GitHub repositories and demo projects",
 	"skills" : [
-		"HTML", "CSS", "JavaScript"
+		"Java","HTML", "CSS", "JavaScript"
 	],
 	"biopic" : "images/Myself-profile.png"
 
@@ -29,9 +29,12 @@ bio.display = function() {
 		formattedGitHub = HTMLgithub.replace('%data%', '<a class="contacts-link" href="https://github.com/RestlessCoder">' + bio.contacts.github + '</a>');
 		formattedLocation = HTMLlocation.replace('%data%', bio.contacts.location);
 
+	var HTMLcontact = '<ul id="topContacts" class="flex-box"></ul>';
+
 	// Select a specify selector and append which is display the value into html website
 	$('#header').append(formattedName);
 	$('#header').append(formattedRole);
+	$('#header').append(HTMLcontact);
 	$('#header').append(formattedBioPic);
 	$('#header').append(formattedWelcomeMsg);
 	
