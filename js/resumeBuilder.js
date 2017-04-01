@@ -112,21 +112,22 @@ bio.display = function() {
 work.display = function() {
 	// Create a new div for work experience
 	$('#workExperience').append(HTMLworkStart);
-	// For-in loop will iterating all objects in an array (it is more appropriate to use for-in loop instead of forEach and for loop iterate over an array)
-	for(job in work.jobs) {
-		// Work experience Information
-		var formattedEmployer = HTMLworkEmployer.replace('%data%', work.jobs[job].employer);
-		var formattedTitle = HTMLworkTitle.replace('%data%', work.jobs[job].title);
+	// Using for each loop to iterate an array of objects instead of for in loop 
+	// To understand more about forEach(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
+	work.jobs.forEach(function(job) {
+		// Work experience Information		
+		var formattedEmployer = HTMLworkEmployer.replace('%data%', job.employer);
+		var formattedTitle = HTMLworkTitle.replace('%data%', job.title);
 		var formattedJoined = formattedEmployer + formattedTitle;
 		$('.work-entry:last').append(formattedJoined);
 
-		var formattedDates = HTMLworkDates.replace('%data%', work.jobs[job].dates);
+		var formattedDates = HTMLworkDates.replace('%data%', job.dates);
 		$('.work-entry:last').append(formattedDates);
-		var formattedLocation = HTMLworkLocation.replace('%data%', work.jobs[job].location);
+		var formattedLocation = HTMLworkLocation.replace('%data%', job.location);
 		$('.work-entry:last').append(formattedLocation);
-		var formattedDescription = HTMLworkDescription.replace('%data%', work.jobs[job].description);
+		var formattedDescription = HTMLworkDescription.replace('%data%', job.description);
 		$('.work-entry:last').append(formattedDescription);
-	}
+	});
 }
 
 // Function for displaying the education
