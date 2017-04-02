@@ -9,14 +9,14 @@ var bio = {
 		"githublink" : "https://github.com/RestlessCoder",
 		"location" : "Belfast, UK"
 	},
-	"welcomeMessage" : "Welcome to my resume page. I'm self-taught front-end web developer." 
-					   + " Feel free to check out my GitHub repositories and demo projects",
+	"welcomeMessage" : "Welcome to my resume page. I'm self-taught front-end web developer." + 
+					      		 " Feel free to check out my GitHub repositories and demo projects",
 	"skills" : [
 		"Java","HTML", "CSS", "JavaScript"
 	],
 	"biopic" : "images/Myself-profile.png"
 
-}
+};
 
 var work = {
 	"jobs" : [
@@ -46,7 +46,24 @@ var work = {
 	  					" restocking, and checking deliveries."
 	  }
 	]
-}
+};
+
+var project = {
+	"projects" : [
+	  {
+	  	"title" : "My Portfolio",
+	  	"dates" : "2017",
+	  	"description" : "This is my portfolio web page, and it was my first project for Udacity Front-End Nanodegree." + 
+	  					" The project was all about developing a responsive website that look good on all devices."  +
+	  					" e.g. desktops, tablets, and phone. The project was built with Bootstrap by using Boostrap's" + 
+	  					" grid system and Media Queries to style the responsiveness and organised the web page more efficently.",
+	  	"images" : [
+	  		"images/Project-1.png",
+	  		"images/Project-1(2).png"
+	  	]
+	  }
+	]
+};
 
 var education = {
 	"schools" : [ 
@@ -68,19 +85,19 @@ var education = {
   	  }
   	]
 
-}
+};
 
 // Function for displaying the bio
 bio.display = function() {
 	var formattedName = HTMLheaderName.replace('%data%', bio.name);
-		formattedRole = HTMLheaderRole.replace('%data%', bio.role);
-		formattedBioPic = HTMLbioPic.replace('%data%', bio.biopic);
-		formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage);
+	var formattedRole = HTMLheaderRole.replace('%data%', bio.role);
+	var formattedBioPic = HTMLbioPic.replace('%data%', bio.biopic);
+	var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage);
 
 	var formattedMobile = HTMLmobile.replace('%data%', bio.contacts.mobile);
-		formattedEmail = HTMLemail.replace('%data%', bio.contacts.email);
-		formattedGitHub = HTMLgithub.replace('%data%', '<a class="contacts-link" href="https://github.com/RestlessCoder">' + bio.contacts.github + '</a>');
-		formattedLocation = HTMLlocation.replace('%data%', bio.contacts.location);
+	var formattedEmail = HTMLemail.replace('%data%', bio.contacts.email);
+	var formattedGitHub = HTMLgithub.replace('%data%', '<a class="contacts-link" href="https://github.com/RestlessCoder">' + bio.contacts.github + '</a>');
+	var formattedLocation = HTMLlocation.replace('%data%', bio.contacts.location);
 
 	var HTMLcontact = '<ul id="topContacts" class="flex-box"></ul>'; // Self-Created
 
@@ -91,11 +108,17 @@ bio.display = function() {
 	$('#header').append(formattedBioPic);
 	$('#header').append(formattedWelcomeMsg);
 	
-	// Contact information
+	// Contact information (header)
 	$('#topContacts').append(formattedMobile);
 	$('#topContacts').append(formattedEmail);
 	$('#topContacts').append(formattedGitHub);
 	$('#topContacts').append(formattedLocation);
+
+	// Contact information (footer)
+	$('#footerContacts').append(formattedMobile);
+	$('#footerContacts').append(formattedEmail);
+	$('#footerContacts').append(formattedGitHub);
+	$('#footerContacts').append(formattedLocation);
 
 	// Skills information 
 	if(bio.skills.length > 0) {
@@ -106,7 +129,7 @@ bio.display = function() {
 			$('#skills').append(formattedSkill);
 		}
 	}
-}	
+};	
 
 // Function for displaying the work experience 
 work.display = function() {
@@ -128,7 +151,30 @@ work.display = function() {
 		var formattedDescription = HTMLworkDescription.replace('%data%', job.description);
 		$('.work-entry:last').append(formattedDescription);
 	});
-}
+};
+
+// Function for displaying the projects 
+project.display = function() {
+	// Create a new div for project
+	$('#projects').append(HTMLprojectStart);
+	// This function part of the function part of the outer forEach() loop is really just translating the projects.projects[i] into a local variable called project.
+	project.projects.forEach(function(project) {
+		// Project Information 
+		var formattedTitle = HTMLprojectTitle.replace('%data%', project.title);
+		$('.project-entry:last').append(formattedTitle);
+		var formattedDates = HTMLprojectDates.replace('%data%', project.dates);
+		$('.project-entry:last').append(formattedDates);
+		var formattedDescription = HTMLprojectDescription.replace('%data%', project.description);
+		$('.project-entry:last').append(formattedDescription); 	
+
+		// To understand this part (https://discussions.udacity.com/t/foreach-loop-question-online-resume-project/179059)
+		// This function part of the inner forEach() loop is translating the projects.projects[i].images[j] into a local variable called image. 
+		project.images.forEach(function(image){
+            var formattedprojectImage = HTMLprojectImage.replace("%data%", image);
+            $(".project-entry:last").append(formattedprojectImage);
+        });
+	});
+};
 
 // Function for displaying the education
 education.display = function() {
@@ -153,13 +199,13 @@ education.display = function() {
 
 	// Create a new div for online courses
 	$('#education').append(HTMLonlineClasses);
-	$('#education').append(HTMLonlineCourses)	// Self-Created
+	$('#education').append(HTMLonlineCourses);	// Self-Created
 
-	for(var i = 0; i < education.onlineCourses.length; i++) {
+	for(var x = 0; x < education.onlineCourses.length; x++) {
 		var formattedTitle = HTMLonlineTitle.replace('%data%', education.onlineCourses[0].title);
 		var formattedSchool = HTMLonlineSchool.replace('%data%', education.onlineCourses[0].school);
-		var formattedJoined = formattedTitle + formattedSchool;
-		$('.onlineCourse-entry:last').append(formattedJoined);
+		var formattedJoin = formattedTitle + formattedSchool;
+		$('.onlineCourse-entry:last').append(formattedJoin);
 
 		var formattedDates = HTMLonlineDates.replace('%data%', education.onlineCourses[0].dates);
 		$('.onlineCourse-entry:last').append(formattedDates);
@@ -168,12 +214,15 @@ education.display = function() {
 
 		// Find the attritube of 'a' in onlineCourse class
 		var findChildren = $('.onlineCourse-entry').find('a');
-		findChildren.attr('href', 'https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001')
+		findChildren.attr('href', 'https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001');
 	}
-}	
-
+};	
 
 /*		Main(Call function)			*/
 bio.display();
 work.display();
+project.display();
 education.display();
+
+// Google Map
+$('#mapDiv').append(googleMap);
