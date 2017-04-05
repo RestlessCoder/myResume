@@ -48,7 +48,7 @@ var work = {
 	]
 };
 
-var project = {
+var projects = {
 	"projects" : [
 	  {
 	  	"title" : "My Portfolio",
@@ -71,7 +71,7 @@ var education = {
 		"name" : "University of Leicester",
 		"location" : "Leicester",
 		"degree" : "BSc",
-		"majors" : "Software & Electronic Engineering",
+		"majors" : ["Software & Electronic Engineering"],
 		"dates" : "2013 - 2016",
 		"url" : "https://le.ac.uk/courses/software-and-electronic-engineering-beng"
 	  }
@@ -108,17 +108,8 @@ bio.display = function() {
 	$('#header').append(formattedBioPic);
 	$('#header').append(formattedWelcomeMsg);
 	
-	// Contact information (header)
-	$('#topContacts').append(formattedMobile);
-	$('#topContacts').append(formattedEmail);
-	$('#topContacts').append(formattedGitHub);
-	$('#topContacts').append(formattedLocation);
-
-	// Contact information (footer)
-	$('#footerContacts').append(formattedMobile);
-	$('#footerContacts').append(formattedEmail);
-	$('#footerContacts').append(formattedGitHub);
-	$('#footerContacts').append(formattedLocation);
+	// Contact information (header & footer)
+	$('#topContacts, #footerContacts').append(formattedMobile, formattedEmail, formattedGitHub, formattedLocation);
 
 	// Skills information 
 	if(bio.skills.length > 0) {
@@ -154,11 +145,11 @@ work.display = function() {
 };
 
 // Function for displaying the projects 
-project.display = function() {
+projects.display = function() {
 	// Create a new div for project
 	$('#projects').append(HTMLprojectStart);
 	// This function part of the function part of the outer forEach() loop is really just translating the projects.projects[i] into a local variable called project.
-	project.projects.forEach(function(project) {
+	projects.projects.forEach(function(project) {
 		// Project Information 
 		var formattedTitle = HTMLprojectTitle.replace('%data%', project.title);
 		$('.project-entry:last').append(formattedTitle);
@@ -180,21 +171,22 @@ project.display = function() {
 education.display = function() {
 	// Create a new div for schools
 	$('#education').append(HTMLschoolStart);
-	for(var i = 0; i < education.schools.length; i++) {
+	education.schools.forEach(function(school) {
 		// Education Information
-		var formattedName = HTMLschoolName.replace('%data%', education.schools[0].name);
-		var formattedDegree = HTMLschoolDegree.replace('%data%', education.schools[0].degree);
+		var formattedName = HTMLschoolName.replace('%data%', school.name);
+		var formattedDegree = HTMLschoolDegree.replace('%data%', school.degree);
 		var formattedJoined = formattedName + formattedDegree;
 		$('.education-entry:last').append(formattedJoined);
 
-		var formattedLocation = HTMLschoolLocation.replace('%data%', education.schools[0].location);
+		var formattedLocation = HTMLschoolLocation.replace('%data%', school.location);
 		$('.education-entry:last').append(formattedLocation);
-		var formattedDates = HTMLschoolDates.replace('%data%', education.schools[0].dates);
+		var formattedDates = HTMLschoolDates.replace('%data%', school.dates);
 		$('.education-entry:last').append(formattedDates);
-		var formattedMajor = HTMLschoolMajor.replace('%data%', education.schools[0].majors);
+		var formattedMajor = HTMLschoolMajor.replace('%data%', school.majors);
 		$('.education-entry:last').append(formattedMajor);
-	}	
-
+     
+    });
+		
 	var HTMLonlineCourses = '<div class="onlineCourse-entry"></div>';	// Self-Created
 
 	// Create a new div for online courses
@@ -221,7 +213,7 @@ education.display = function() {
 /*		Main(Call function)			*/
 bio.display();
 work.display();
-project.display();
+projects.display();
 education.display();
 
 // Google Map
