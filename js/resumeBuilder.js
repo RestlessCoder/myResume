@@ -173,7 +173,7 @@ education.display = function() {
 	$('#education').append(HTMLschoolStart);
 	education.schools.forEach(function(school) {
 		// Education Information
-		var formattedName = HTMLschoolName.replace('%data%', school.name);
+		var formattedName = HTMLschoolName.replace('%data%', school.name).replace('#', school.url);
 		var formattedDegree = HTMLschoolDegree.replace('%data%', school.degree);
 		var formattedJoined = formattedName + formattedDegree;
 		$('.education-entry:last').append(formattedJoined);
@@ -194,14 +194,14 @@ education.display = function() {
 	$('#education').append(HTMLonlineCourses);	// Self-Created
 
 	for(var x = 0; x < education.onlineCourses.length; x++) {
-		var formattedTitle = HTMLonlineTitle.replace('%data%', education.onlineCourses[0].title);
-		var formattedSchool = HTMLonlineSchool.replace('%data%', education.onlineCourses[0].school);
+		var formattedTitle = HTMLonlineTitle.replace('%data%', education.onlineCourses[x].title);
+		var formattedSchool = HTMLonlineSchool.replace('%data%', education.onlineCourses[x].school);
 		var formattedJoin = formattedTitle + formattedSchool;
 		$('.onlineCourse-entry:last').append(formattedJoin);
 
-		var formattedDates = HTMLonlineDates.replace('%data%', education.onlineCourses[0].dates);
+		var formattedDates = HTMLonlineDates.replace('%data%', education.onlineCourses[x].dates);
 		$('.onlineCourse-entry:last').append(formattedDates);
-		var formattedUrl = HTMLonlineURL.replace('%data%', education.onlineCourses[0].url);
+		var formattedUrl = HTMLonlineURL.replace('%data%', education.onlineCourses[x].url);
 		$('.onlineCourse-entry:last').append(formattedUrl);
 
 		// Find the attritube of 'a' in onlineCourse class
