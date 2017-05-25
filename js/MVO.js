@@ -1,5 +1,4 @@
 /* ======== Model ========= */
-
 var model = {
 	bio: {
 		"name" : "Chee Aik Lim",
@@ -88,3 +87,128 @@ var model = {
 	}
 }; // End of Model
 
+
+/* ======== Octopus ========= */
+
+var octopus = {
+
+	init: function() {
+		viewBio.init();
+	},
+
+	/*
+     * @function model.getAllBio
+     * @description returns the Projects information
+     * @returns {Object} JSON Projects object        
+     */
+	getAllBio: function() {
+		return model.bio;
+	},
+
+	/*
+     * @function model.getAllWork
+     * @description returns the Projects information
+     * @returns {Object} JSON Projects object        
+     */
+	getAllWork: function() {
+		return model.work;
+	},
+
+	/*
+     * @function model.getAllProjects
+     * @description returns the Projects information
+     * @returns {Object} JSON Projects object        
+     */
+	getAllProject: function() {
+		return model.projects;
+	},
+
+	/*
+     * @function model.getAllEducation
+     * @description returns the Projects information
+     * @returns {Object} JSON Projects object        
+     */
+	getAllEducation: function() {
+		return model.education;
+	}
+}
+
+
+/* ======== View ========= */
+var viewBio = {
+	
+	/*
+     * @function viewBio.init
+     * @description inialises the application view viewBio.
+     * Initialises the views HTML template strings and gets the Bio JSON object.
+     */
+	init: function() {
+
+		HTMLheaderName = '<h1 id="name">%data%</h1>';
+		HTMLheaderRole = '<span>%data%</span><hr>';
+
+		HTMLcontactGeneric = '<li class="flex-item"><span class="orange-text">%contact%</span><span class="white-text">%data%</span></li>';
+		HTMLmobile = '<li class="flex-item"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i><span class="orange-text">mobile</span><span class="white-text">%data%</span></li>';
+		HTMLemail = '<li class="flex-item"><i class="fa fa-envelope-o" aria-hidden="true"></i><span class="orange-text">email</span><span class="white-text">%data%</span></li>';
+		HTMLtwitter = '<li class="flex-item"><span class="orange-text">twitter</span><span class="white-text">%data%</span></li>';
+		HTMLgithub = '<li class="flex-item"><i class="fa fa-github fa-lg" aria-hidden="true"></i><span class="orange-text">github</span><span class="white-text">%data%</span></li>';
+		HTMLblog = '<li class="flex-item"><span class="orange-text">blog</span><span class="white-text">%data%</span></li>';
+		HTMLlocation = '<li class="flex-item"><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i><span class="orange-text">location</span><span class="white-text">%data%</span></li>';
+
+		HTMLbioPic = '<img src="%data%" class="biopic">';
+		HTMLwelcomeMsg = '<span class="welcome-message">%data%</span>';
+
+		HTMLskillsStart = '<h3 id="skills-h3">Skills at a Glance:</h3><ul id="skills" class="flex-column"></ul>';
+		HTMLskills = '<li class="flex-item"><span class="white-text">%data%</span></li>';
+
+		this.render();
+	},
+
+	/*
+     * @function viewBio.render
+     * @description Displays the individual's biographical information using the
+     * bio JSON object and the views HTML template strings.
+    */
+	render: function() {
+
+		// Get all the bio we'll be rendering from the octopus
+		var bio = octopus.getAllBio();
+
+		var formattedName = HTMLheaderName.replace('%data%', bio.name);
+		var formattedRole = HTMLheaderRole.replace('%data%', bio.role);
+		var formattedBioPic = HTMLbioPic.replace('%data%', bio.biopic);
+		var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage);
+
+		var formattedMobile = HTMLmobile.replace('%data%', bio.contacts.mobile);
+		var formattedEmail = HTMLemail.replace('%data%', bio.contacts.email);
+		var formattedGitHub = HTMLgithub.replace('%data%', '<a class="contacts-link" href="https://github.com/RestlessCoder">' + bio.contacts.github + '</a>');
+		var formattedLocation = HTMLlocation.replace('%data%', bio.contacts.location);
+
+		var HTMLcontact = '<ul id="topContacts" class="flex-box"></ul>'; // Self-Created
+
+		// Select a specify selector and append which is display the value into html website
+		$('#header').append(formattedName);
+		$('#header').append(formattedRole);
+		$('#header').append(HTMLcontact);	// Self-Created
+		$('#header').append(formattedBioPic);
+		$('#header').append(formattedWelcomeMsg);
+		
+		// Contact information (header & footer)
+		$('#topContacts, #footerContacts').append(formattedMobile, formattedEmail, formattedGitHub, formattedLocation);
+
+		// Skills information 
+		if(bio.skills.length > 0) {
+			$("#header").append(HTMLskillsStart);
+
+			for(var i = 0; i < bio.skills.length; i++) {
+				var formattedSkill = HTMLskills.replace('%data%', bio.skills[i]);
+				$('#skills').append(formattedSkill);
+			}
+		}
+
+	}
+
+}; // End of viewBio
+
+// Make it go
+octopus.init();
