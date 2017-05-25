@@ -94,6 +94,9 @@ var octopus = {
 
 	init: function() {
 		viewBio.init();
+		viewWork.init();
+		viewProjects.init();
+		viewEducation.init();
 	},
 
 	/*
@@ -135,6 +138,8 @@ var octopus = {
 
 
 /* ======== View ========= */
+
+/* ======== ViewBio ========= */
 var viewBio = {
 	
 	/*
@@ -209,6 +214,189 @@ var viewBio = {
 	}
 
 }; // End of viewBio
+
+/* ======== ViewWork ========= */
+var viewWork = {
+	
+	/*
+     * @function viewWork.init
+     * @description intialises the application view viewWork.
+     * Initialises the views HTML template strings and gets the Work JSON object.
+     */
+	init: function() {
+
+		HTMLworkStart = '<div class="work-entry"></div>';
+		HTMLworkEmployer = '<a href="#">%data%';
+		HTMLworkTitle = ' - %data%</a>';
+		HTMLworkDates = '<div class="date-text">%data%</div>';
+		HTMLworkLocation = '<div class="location-text">%data%</div>';
+		HTMLworkDescription = '<p><br>%data%</p>';
+
+		this.render();
+	},
+
+	/*
+     * @function viewBio.render
+     * @description Displays the work information using the
+     * work JSON object and the views HTML template strings.
+    */
+	render: function() {
+
+		// Get all the work we'll be rendering from the octopus
+		var work = octopus.getAllWork();
+
+		// Create a new div for work experience
+		$('#workExperience').append(HTMLworkStart);
+		// Using for each loop to iterate an array of objects instead of for in loop 
+		// To understand more about forEach(https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
+		work.jobs.forEach(function(job) {
+			// Work experience Information		
+			var formattedEmployer = HTMLworkEmployer.replace('%data%', job.employer);
+			var formattedTitle = HTMLworkTitle.replace('%data%', job.title);
+			var formattedJoined = formattedEmployer + formattedTitle;
+			$('.work-entry:last').append(formattedJoined);
+
+			var formattedDates = HTMLworkDates.replace('%data%', job.dates);
+			$('.work-entry:last').append(formattedDates);
+			var formattedLocation = HTMLworkLocation.replace('%data%', job.location);
+			$('.work-entry:last').append(formattedLocation);
+			var formattedDescription = HTMLworkDescription.replace('%data%', job.description);
+			$('.work-entry:last').append(formattedDescription);
+		});
+	}
+
+}; // End of viewWork
+
+/* ======== ViewProjects ========= */
+var viewProjects = {
+	
+	/*
+     * @function viewProjects.init
+     * @description intialises the application view viewProjects.
+     * Initialises the views HTML template strings and gets the Projects JSON object.
+     */
+	init: function() {
+
+		HTMLprojectStart = '<div class="project-entry"></div>';
+		HTMLprojectTitle = '<a href="#">%data%</a>';
+		HTMLprojectDates = '<div class="date-text">%data%</div>';
+		HTMLprojectDescription = '<p><br>%data%</p>';
+		HTMLprojectImage = '<img src="%data%">';
+
+		this.render();
+	},
+
+	/*
+     * @function viewProjects.render
+     * @description Displays the projects using the
+     * projects JSON object and the views HTML template strings.
+    */
+	render: function() {
+
+		// Get all the project we'll be rendering from the octopus
+		var projects = octopus.getAllProject();
+
+		// Create a new div for project
+		$('#projects').append(HTMLprojectStart);
+		// This function part of the function part of the outer forEach() loop is really just translating the projects.projects[i] into a local variable called project.
+		projects.projects.forEach(function(project) {
+			// Project Information 
+			var formattedTitle = HTMLprojectTitle.replace('%data%', project.title);
+			$('.project-entry:last').append(formattedTitle);
+			var formattedDates = HTMLprojectDates.replace('%data%', project.dates);
+			$('.project-entry:last').append(formattedDates);
+			var formattedDescription = HTMLprojectDescription.replace('%data%', project.description);
+			$('.project-entry:last').append(formattedDescription); 	
+
+			// To understand this part (https://discussions.udacity.com/t/foreach-loop-question-online-resume-project/179059)
+			// This function part of the inner forEach() loop is translating the projects.projects[i].images[j] into a local variable called image. 
+			project.images.forEach(function(image){
+	            var formattedprojectImage = HTMLprojectImage.replace("%data%", image);
+	            $(".project-entry:last").append(formattedprojectImage);
+	        });
+		});
+	}
+
+}; // End of viewProjects
+
+/* ======== ViewEducation========= */
+var viewEducation = {
+	
+	/*
+     * @function viewEducation.init
+     * @description intialises the application view viewProjects.
+     * Initialises the views HTML template strings and gets the Projects JSON object.
+     */
+	init: function() {
+
+		HTMLschoolStart = '<div class="education-entry"></div>';
+		HTMLschoolName = '<a href="#">%data%';
+		HTMLschoolDegree = ' - %data%</a>';
+		HTMLschoolDates = '<div class="date-text">%data%</div>';
+		HTMLschoolLocation = '<div class="location-text">%data%</div>';
+		HTMLschoolMajor = '<em><br>Major: %data%</em>';
+
+		HTMLonlineClasses = '<h3>Online Classes</h3>';
+		HTMLonlineTitle = '<a href="#">%data%';
+		HTMLonlineSchool = ' - %data%</a>';
+		HTMLonlineDates = '<div class="date-text">%data%</div>';
+		HTMLonlineURL = '<br><a href="#">%data%</a>';
+
+		this.render();
+	},
+
+	/*
+     * @function viewEducation.render
+     * @description Displays the education information using the
+     * education JSON object and the views HTML template strings.
+    */
+	render: function() {
+
+		// Get all the project we'll be rendering from the octopus
+		var education = octopus.getAllEducation();
+
+		// Create a new div for schools
+		$('#education').append(HTMLschoolStart);
+		education.schools.forEach(function(school) {
+			// Education Information
+			var formattedName = HTMLschoolName.replace('%data%', school.name).replace('#', school.url);
+			var formattedDegree = HTMLschoolDegree.replace('%data%', school.degree);
+			var formattedJoined = formattedName + formattedDegree;
+			$('.education-entry:last').append(formattedJoined);
+
+			var formattedLocation = HTMLschoolLocation.replace('%data%', school.location);
+			$('.education-entry:last').append(formattedLocation);
+			var formattedDates = HTMLschoolDates.replace('%data%', school.dates);
+			$('.education-entry:last').append(formattedDates);
+			var formattedMajor = HTMLschoolMajor.replace('%data%', school.majors);
+			$('.education-entry:last').append(formattedMajor);
+	     
+	    });
+			
+		var HTMLonlineCourses = '<div class="onlineCourse-entry"></div>';	// Self-Created
+
+		// Create a new div for online courses
+		$('#education').append(HTMLonlineClasses);
+		$('#education').append(HTMLonlineCourses);	// Self-Created
+
+		for(var x = 0; x < education.onlineCourses.length; x++) {
+			var formattedTitle = HTMLonlineTitle.replace('%data%', education.onlineCourses[x].title);
+			var formattedSchool = HTMLonlineSchool.replace('%data%', education.onlineCourses[x].school);
+			var formattedJoin = formattedTitle + formattedSchool;
+			$('.onlineCourse-entry:last').append(formattedJoin);
+
+			var formattedDates = HTMLonlineDates.replace('%data%', education.onlineCourses[x].dates);
+			$('.onlineCourse-entry:last').append(formattedDates);
+			var formattedUrl = HTMLonlineURL.replace('%data%', education.onlineCourses[x].url);
+			$('.onlineCourse-entry:last').append(formattedUrl);
+
+			// Find the attritube of 'a' in onlineCourse class
+			var findChildren = $('.onlineCourse-entry').find('a');
+			findChildren.attr('href', 'https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001');
+		}
+	}
+
+}; // End of Education
 
 // Make it go
 octopus.init();
